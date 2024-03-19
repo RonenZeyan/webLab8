@@ -1,0 +1,27 @@
+td,th{
+  text-align:left;
+}
+
+
+.image{
+  border-radius: 3px;
+  
+}
+
+.butt{
+  border-style: none;
+  background-color: transparent;
+  width: 55px;
+  margin: 10px;
+}
+
+.butt:focus{
+  outline-color: red;
+  outline-width: 10px;
+}
+
+.image-list{
+  display: grid;
+  grid-template-columns: repeat(10,1fr);
+
+}
