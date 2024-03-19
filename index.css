@@ -29,4 +29,5 @@ td,th{
 .image-big{
   display: flex;
   justify-content: center;
+  margin: auto;
 }

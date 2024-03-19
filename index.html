@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ReactJS - composing</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+      const Welcome = (prop) => <li>Welcome {prop.name}!</li>
+
+      const Title = (prop) => <h1>Hello {prop.name}!</h1>
+        function ImageList(props){
+
+            //change last of link to 50/50
+            function changeURL(url){
+                const newUrl = url.replace(/\/\d+\/\d+$/, "/50/50");
+                return newUrl        
+            }
+                const data = props.data;
+                return (
+            <div className="image-list">
+                {data.map((d, index) => (
+                <Image key={index} data={changeURL(d.download_url)} onImageClick={props.onImageClick} />
+                ))}
+            </div>
+            );
+            }
+        function Image(prop){
+            return (
+            <button className="butt" onClick={() => prop.onImageClick(prop.data)}>
+            <img className="image" src={prop.data} alt="A pic from Picsum" />
+            </button>
+
+            );
+        }
+        function BigImage(prop){
+
+            //change last of link to 50/50
+            function changeURL(url){
+                const newUrl = url.replace(/\/\d+\/\d+$/, "/350/350");
+                return newUrl        
+            }
+
+            return (
+            <img className="image image-big" src={changeURL(prop.imageURL)} alt="BigCo Inc. logo"/>
+            );
+            }
+        function App() {
+        const [data, setData] = useState([])
+        const [selectedImage,setSelectedImage] = useState(null) //
+
+        useEffect(() => {
+            const url = `https://picsum.photos/v2/list?limit=20`
+            fetch(url)
+            .then(response => response.json())
+            .then(d => setData(d))
+        }, [])
+
+        const handleSelectedImage = (ImageURL) => {
+            setSelectedImage(ImageURL)
+        };
+
+        return (<div className="App">
+            <div className='container'>
+            <h1 className='text-primary text-left' style={{display:'flex',justifyContent:'center'}}>Image List</h1>
+            {data && <ImageList data={data} onImageClick={handleSelectedImage}/>}
+            {selectedImage && <BigImage imageURL={selectedImage}/>}
+            </div>
+        </div>)
+}
+
+
+      ReactDOM.render(<App />, document.getElementById("root"))
+    </script>
+  </body>
+</html>
